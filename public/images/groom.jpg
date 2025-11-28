@@ -1,0 +1,5 @@
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="400" cy="400" r="400" fill="#E8F0F8"/>
+  <circle cx="400" cy="350" r="150" fill="#B8860B"/>
+  <text x="400" y="600" font-family="Arial" font-size="40" fill="#2C2C2C" text-anchor="middle">Groom Photo</text>
+</svg>
