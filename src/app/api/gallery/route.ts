@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAuth } from '@/lib/auth/middleware';
+import { isAuthenticated } from '@/lib/auth/jwt';
 import { getAllGalleryImagesAdmin, createGalleryImage, deleteGalleryImage } from '@/lib/db/queries';
 
-const getHandler = async (request: NextRequest) => {
+export async function GET(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const images = getAllGalleryImagesAdmin();
     return NextResponse.json(images);
@@ -10,9 +15,14 @@ const getHandler = async (request: NextRequest) => {
     console.error('Error fetching gallery images:', error);
     return NextResponse.json({ error: 'Failed to fetch images' }, { status: 500 });
   }
-};
+}
 
-const postHandler = async (request: NextRequest) => {
+export async function POST(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const result = createGalleryImage(body);
@@ -22,9 +32,14 @@ const postHandler = async (request: NextRequest) => {
     console.error('Error creating gallery image:', error);
     return NextResponse.json({ error: 'Failed to create image' }, { status: 500 });
   }
-};
+}
 
-const deleteHandler = async (request: NextRequest) => {
+export async function DELETE(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -40,8 +55,4 @@ const deleteHandler = async (request: NextRequest) => {
     console.error('Error deleting gallery image:', error);
     return NextResponse.json({ error: 'Failed to delete image' }, { status: 500 });
   }
-};
-
-export const GET = withAuth(getHandler);
-export const POST = withAuth(postHandler);
-export const DELETE = withAuth(deleteHandler);
+}

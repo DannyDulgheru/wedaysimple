@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAuth } from '@/lib/auth/middleware';
+import { isAuthenticated } from '@/lib/auth/jwt';
 import { getAllRSVPs, createRSVP, deleteRSVP, getRSVPStats } from '@/lib/db/queries';
 import { rsvpSchema } from '@/lib/validations/rsvp';
 
-const getHandler = async (request: NextRequest) => {
+export async function GET(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const action = searchParams.get('action');
 
@@ -19,9 +24,7 @@ const getHandler = async (request: NextRequest) => {
     console.error('Error fetching RSVPs:', error);
     return NextResponse.json({ error: 'Failed to fetch RSVPs' }, { status: 500 });
   }
-};
-
-export const GET = withAuth(getHandler);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -51,7 +54,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const deleteHandler = async (request: NextRequest) => {
+export async function DELETE(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -67,6 +75,4 @@ const deleteHandler = async (request: NextRequest) => {
     console.error('Error deleting RSVP:', error);
     return NextResponse.json({ error: 'Failed to delete RSVP' }, { status: 500 });
   }
-};
-
-export const DELETE = withAuth(deleteHandler);
+}

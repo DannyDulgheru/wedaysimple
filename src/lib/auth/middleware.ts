@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAuthenticated } from './jwt';
 
-export async function withAuth(handler: (request: NextRequest) => Promise<NextResponse> | NextResponse) {
+export function withAuth(handler: (request: NextRequest) => Promise<NextResponse> | NextResponse) {
   return async (request: NextRequest) => {
     const authenticated = await isAuthenticated();
 

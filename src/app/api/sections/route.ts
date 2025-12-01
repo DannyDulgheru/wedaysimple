@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAuth } from '@/lib/auth/middleware';
+import { isAuthenticated } from '@/lib/auth/jwt';
 import { getAllSections, updateSection, toggleSectionVisibility } from '@/lib/db/queries';
 
 export async function GET() {
@@ -12,7 +12,12 @@ export async function GET() {
   }
 }
 
-const putHandler = async (request: NextRequest) => {
+export async function PUT(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { id, action, ...data } = body;
@@ -28,6 +33,4 @@ const putHandler = async (request: NextRequest) => {
     console.error('Error updating section:', error);
     return NextResponse.json({ error: 'Failed to update section' }, { status: 500 });
   }
-};
-
-export const PUT = withAuth(putHandler);
+}

@@ -20,6 +20,15 @@ export default function AdminDashboard() {
         fetch('/api/rsvp'),
       ]);
 
+      if (!statsRes.ok || !rsvpsRes.ok) {
+        console.error('API Error:', statsRes.status, rsvpsRes.status);
+        if (statsRes.status === 401 || rsvpsRes.status === 401) {
+          window.location.href = '/admin/login';
+          return;
+        }
+        throw new Error('Failed to fetch data');
+      }
+
       const statsData = await statsRes.json();
       const rsvpsData = await rsvpsRes.json();
 

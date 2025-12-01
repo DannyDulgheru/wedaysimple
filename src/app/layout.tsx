@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Montserrat, Great_Vibes } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { DesignVariables } from "@/components/DesignVariables";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${montserrat.variable} ${greatVibes.variable} antialiased`}
       >
+        <DesignVariables />
         {children}
         <Toaster />
       </body>

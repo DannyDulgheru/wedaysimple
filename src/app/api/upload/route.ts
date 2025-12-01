@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
-import { withAuth } from '@/lib/auth/middleware';
+import { isAuthenticated } from '@/lib/auth/jwt';
 
-async function handleUpload(request: NextRequest) {
+export async function POST(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File;
@@ -72,8 +76,6 @@ async function handleUpload(request: NextRequest) {
     );
   }
 }
-
-export const POST = withAuth(handleUpload);
 
 // Configure for larger file uploads
 export const config = {

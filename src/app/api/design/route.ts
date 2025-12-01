@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAuth } from '@/lib/auth/middleware';
+import { isAuthenticated } from '@/lib/auth/jwt';
 import { getAllDesignSettings, updateDesignSetting } from '@/lib/db/queries';
 
 export async function GET() {
@@ -12,7 +12,12 @@ export async function GET() {
   }
 }
 
-const putHandler = async (request: NextRequest) => {
+export async function PUT(request: NextRequest) {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { setting_key, setting_value } = body;
@@ -24,6 +29,4 @@ const putHandler = async (request: NextRequest) => {
     console.error('Error updating design setting:', error);
     return NextResponse.json({ error: 'Failed to update setting' }, { status: 500 });
   }
-};
-
-export const PUT = withAuth(putHandler);
+}

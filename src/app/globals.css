@@ -122,3 +122,54 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Wedding Design System Variables - Can be overridden by admin settings */
+:root {
+  /* Default Colors */
+  --primary-color: #D4A5A5;
+  --secondary-color: #B8860B;
+  --accent-color: #FFF8F0;
+  --text-color: #333333;
+  
+  /* Default Fonts */
+  --heading-font: 'Playfair Display', serif;
+  --body-font: 'Montserrat', sans-serif;
+  --script-font: 'Great Vibes', cursive;
+}
+
+/* Utility classes using design variables */
+.text-primary {
+  color: var(--primary-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.text-accent {
+  color: var(--accent-color);
+}
+
+.bg-accent {
+  background-color: var(--accent-color);
+}
+
+.font-heading {
+  font-family: var(--heading-font);
+}
+
+.font-body {
+  font-family: var(--body-font);
+}
+
+.font-script {
+  font-family: var(--script-font);
+}
