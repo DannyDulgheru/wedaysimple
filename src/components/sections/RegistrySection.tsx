@@ -16,7 +16,7 @@ interface RegistryProps {
 
 export function RegistrySection({ content }: RegistryProps) {
   return (
-    <section className="py-20 bg-[#FFF8F0]">
+    <section className="py-20 bg-accent">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -28,7 +28,7 @@ export function RegistrySection({ content }: RegistryProps) {
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             {content.heading}
           </h2>
-          <div className="w-24 h-1 bg-[#D4A5A5] mx-auto"></div>
+          <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
 
         <motion.div
@@ -38,7 +38,7 @@ export function RegistrySection({ content }: RegistryProps) {
           transition={{ duration: 0.8 }}
           className="max-w-2xl mx-auto text-center"
         >
-          <FaHeart className="text-5xl text-[#D4A5A5] mx-auto mb-6" />
+          <FaHeart className="text-5xl text-primary mx-auto mb-6" />
           <p className="text-lg text-gray-700 leading-relaxed mb-8">{content.message}</p>
 
           {content.registryLinks && content.registryLinks.length > 0 && (
@@ -49,7 +49,7 @@ export function RegistrySection({ content }: RegistryProps) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#D4A5A5] text-white px-6 py-3 rounded-lg hover:bg-[#B8860B] transition-colors"
+                  className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg hover:bg-secondary transition-colors"
                 >
                   <FaGift /> {link.name}
                 </a>

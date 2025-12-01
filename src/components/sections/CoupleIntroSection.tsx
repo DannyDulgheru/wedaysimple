@@ -14,7 +14,7 @@ interface CoupleIntroProps {
 
 export function CoupleIntroSection({ content }: CoupleIntroProps) {
   return (
-    <section className="py-20 bg-[#FFF8F0]">
+    <section className="py-20 bg-accent">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -26,7 +26,7 @@ export function CoupleIntroSection({ content }: CoupleIntroProps) {
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             Mirii
           </h2>
-          <div className="w-24 h-1 bg-[#D4A5A5] mx-auto"></div>
+          <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
@@ -37,7 +37,7 @@ export function CoupleIntroSection({ content }: CoupleIntroProps) {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <div className="relative w-64 h-64 mx-auto mb-6 rounded-full overflow-hidden border-4 border-[#D4A5A5]">
+            <div className="relative w-64 h-64 mx-auto mb-6 rounded-full overflow-hidden border-4 border-primary">
               <Image
                 src={content.bridePhoto}
                 alt="Mireasa"
@@ -58,7 +58,7 @@ export function CoupleIntroSection({ content }: CoupleIntroProps) {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <div className="relative w-64 h-64 mx-auto mb-6 rounded-full overflow-hidden border-4 border-[#D4A5A5]">
+            <div className="relative w-64 h-64 mx-auto mb-6 rounded-full overflow-hidden border-4 border-primary">
               <Image
                 src={content.groomPhoto}
                 alt="Mirele"

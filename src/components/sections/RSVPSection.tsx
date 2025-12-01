@@ -90,7 +90,7 @@ export function RSVPSection({ content }: RSVPProps) {
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             {content.heading}
           </h2>
-          <div className="w-24 h-1 bg-[#D4A5A5] mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
           <p className="text-lg text-gray-600">{content.description}</p>
         </motion.div>
 
@@ -99,7 +99,7 @@ export function RSVPSection({ content }: RSVPProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="max-w-2xl mx-auto bg-[#FFF8F0] p-8 rounded-lg shadow-lg"
+          className="max-w-2xl mx-auto bg-accent p-8 rounded-lg shadow-lg"
         >
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
@@ -216,7 +216,7 @@ export function RSVPSection({ content }: RSVPProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#D4A5A5] hover:bg-[#B8860B] text-white"
+              className="w-full bg-primary hover:bg-secondary text-white"
             >
               {isSubmitting ? 'Se trimite...' : 'Confirmă Prezența'}
             </Button>

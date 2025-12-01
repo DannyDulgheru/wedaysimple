@@ -21,7 +21,7 @@ export function GallerySection({ content, images }: GalleryProps) {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   return (
-    <section className="py-20 bg-[#FFF8F0]">
+    <section className="py-20 bg-accent">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -33,7 +33,7 @@ export function GallerySection({ content, images }: GalleryProps) {
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             {content.heading}
           </h2>
-          <div className="w-24 h-1 bg-[#D4A5A5] mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
           <p className="text-lg text-gray-600">{content.description}</p>
         </motion.div>
 
@@ -69,7 +69,7 @@ export function GallerySection({ content, images }: GalleryProps) {
               onClick={() => setSelectedImage(null)}
             >
               <button
-                className="absolute top-4 right-4 text-white text-3xl hover:text-[#D4A5A5] transition-colors"
+                className="absolute top-4 right-4 text-white text-3xl hover:text-primary transition-colors"
                 onClick={() => setSelectedImage(null)}
               >
                 <FaTimes />

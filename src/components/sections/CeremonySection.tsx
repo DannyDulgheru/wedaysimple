@@ -16,7 +16,7 @@ interface CeremonyProps {
 
 export function CeremonySection({ content }: CeremonyProps) {
   return (
-    <section className="py-20 bg-[#FFF8F0]">
+    <section className="py-20 bg-accent">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -28,7 +28,7 @@ export function CeremonySection({ content }: CeremonyProps) {
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             Ceremonia
           </h2>
-          <div className="w-24 h-1 bg-[#D4A5A5] mx-auto"></div>
+          <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
 
         <div className="max-w-3xl mx-auto">
@@ -45,7 +45,7 @@ export function CeremonySection({ content }: CeremonyProps) {
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <FaClock className="text-[#D4A5A5] text-2xl mt-1 flex-shrink-0" />
+                <FaClock className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-gray-900">Data și Ora</p>
                   <p className="text-gray-700">
@@ -55,7 +55,7 @@ export function CeremonySection({ content }: CeremonyProps) {
               </div>
 
               <div className="flex items-start gap-4">
-                <FaMapMarkerAlt className="text-[#D4A5A5] text-2xl mt-1 flex-shrink-0" />
+                <FaMapMarkerAlt className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-gray-900">Adresă</p>
                   <p className="text-gray-700">{content.address}</p>
@@ -63,14 +63,14 @@ export function CeremonySection({ content }: CeremonyProps) {
               </div>
 
               <div className="flex items-start gap-4">
-                <FaParking className="text-[#D4A5A5] text-2xl mt-1 flex-shrink-0" />
+                <FaParking className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-gray-900">Parcare</p>
                   <p className="text-gray-700">{content.parking}</p>
                 </div>
               </div>
 
-              <div className="bg-[#FFF8F0] p-4 rounded-lg mt-6">
+              <div className="bg-accent p-4 rounded-lg mt-6">
                 <p className="font-semibold text-gray-900 mb-2">Cod Vestimentar</p>
                 <p className="text-gray-700">{content.dressCode}</p>
               </div>

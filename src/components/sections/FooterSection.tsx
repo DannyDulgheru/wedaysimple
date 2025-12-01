@@ -22,7 +22,7 @@ export function FooterSection({ content }: FooterProps) {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <FaHeart className="text-4xl text-[#D4A5A5] mx-auto mb-6" />
+          <FaHeart className="text-4xl text-primary mx-auto mb-6" />
           <p className="text-2xl mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
             {content.thankYouMessage}
           </p>
@@ -37,14 +37,14 @@ export function FooterSection({ content }: FooterProps) {
           <div className="flex justify-center gap-6 mb-8">
             <a
               href="#"
-              className="text-3xl hover:text-[#D4A5A5] transition-colors"
+              className="text-3xl hover:text-primary transition-colors"
               aria-label="Instagram"
             >
               <FaInstagram />
             </a>
             <a
               href="#"
-              className="text-3xl hover:text-[#D4A5A5] transition-colors"
+              className="text-3xl hover:text-primary transition-colors"
               aria-label="Facebook"
             >
               <FaFacebook />
@@ -55,7 +55,7 @@ export function FooterSection({ content }: FooterProps) {
             <p>Întrebări? Contactează-ne la:</p>
             <a
               href={`mailto:${content.contactEmail}`}
-              className="text-[#D4A5A5] hover:text-white transition-colors"
+              className="text-primary hover:text-white transition-colors"
             >
               {content.contactEmail}
             </a>

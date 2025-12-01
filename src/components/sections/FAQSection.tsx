@@ -15,7 +15,7 @@ interface FAQProps {
 
 export function FAQSection({ content, faqs }: FAQProps) {
   return (
-    <section className="py-20 bg-[#FFF8F0]">
+    <section className="py-20 bg-accent">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -27,7 +27,7 @@ export function FAQSection({ content, faqs }: FAQProps) {
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             {content.heading}
           </h2>
-          <div className="w-24 h-1 bg-[#D4A5A5] mx-auto"></div>
+          <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
 
         <motion.div

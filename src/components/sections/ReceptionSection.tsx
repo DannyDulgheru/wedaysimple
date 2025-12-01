@@ -26,7 +26,7 @@ export function ReceptionSection({ content }: ReceptionProps) {
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             Recepția
           </h2>
-          <div className="w-24 h-1 bg-[#D4A5A5] mx-auto"></div>
+          <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
 
         <div className="max-w-3xl mx-auto">
@@ -35,7 +35,7 @@ export function ReceptionSection({ content }: ReceptionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="bg-[#FFF8F0] p-8 rounded-lg shadow-lg"
+            className="bg-accent p-8 rounded-lg shadow-lg"
           >
             <h3 className="text-3xl font-semibold mb-6 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>
               {content.venue}
@@ -43,7 +43,7 @@ export function ReceptionSection({ content }: ReceptionProps) {
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <FaClock className="text-[#D4A5A5] text-2xl mt-1 flex-shrink-0" />
+                <FaClock className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-gray-900">Ora</p>
                   <p className="text-gray-700">{content.time}</p>
@@ -51,7 +51,7 @@ export function ReceptionSection({ content }: ReceptionProps) {
               </div>
 
               <div className="flex items-start gap-4">
-                <FaMapMarkerAlt className="text-[#D4A5A5] text-2xl mt-1 flex-shrink-0" />
+                <FaMapMarkerAlt className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-gray-900">Adresă</p>
                   <p className="text-gray-700">{content.address}</p>

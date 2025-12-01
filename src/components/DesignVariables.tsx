@@ -9,11 +9,13 @@ export function DesignVariables() {
     return acc;
   }, {});
 
+  const cssString = Object.entries(cssVariables)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('\n    ');
+
   return (
-    <style jsx global>{`
-      :root {
-        ${Object.entries(cssVariables).map(([key, value]) => `${key}: ${value};`).join('\n        ')}
-      }
-    `}</style>
+    <style dangerouslySetInnerHTML={{
+      __html: `:root {\n    ${cssString}\n  }`
+    }} />
   );
 }
