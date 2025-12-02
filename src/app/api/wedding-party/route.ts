@@ -33,14 +33,15 @@ export async function PUT(request: NextRequest) {
     db.prepare('DELETE FROM wedding_party').run();
 
     const stmt = db.prepare(`
-      INSERT INTO wedding_party (name, role, photo_url, description, display_order)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO wedding_party (name, role, category, photo_url, description, display_order)
+      VALUES (?, ?, ?, ?, ?, ?)
     `);
 
     members.forEach((member: any, index: number) => {
       stmt.run(
         member.name,
         member.role,
+        member.category || 'nasi',
         member.photo_url || '',
         member.description || '',
         index + 1

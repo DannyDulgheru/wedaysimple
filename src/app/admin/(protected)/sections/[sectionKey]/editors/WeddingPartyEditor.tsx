@@ -15,13 +15,15 @@ interface WeddingPartyMember {
   id?: number;
   name: string;
   role: string;
+  category: 'nasi' | 'martori';
   photo_url: string;
   description: string;
 }
 
 export default function WeddingPartyEditor({ sectionKey }: { sectionKey: string }) {
   const router = useRouter();
-  const [heading, setHeading] = useState('');
+  const [nasiHeading, setNasiHeading] = useState('');
+  const [martoriHeading, setMartoriHeading] = useState('');
   const [members, setMembers] = useState<WeddingPartyMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -39,7 +41,8 @@ export default function WeddingPartyEditor({ sectionKey }: { sectionKey: string 
         const data = await response.json();
         if (data.content_json) {
           const content = JSON.parse(data.content_json);
-          setHeading(content.heading || '');
+          setNasiHeading(content.nasiHeading || 'Nașii Noștri');
+          setMartoriHeading(content.martoriHeading || 'Martorii Noștri');
         }
       }
     } catch (error) {
@@ -64,11 +67,11 @@ export default function WeddingPartyEditor({ sectionKey }: { sectionKey: string 
   const handleSave = async () => {
     setSaving(true);
     try {
-      // Save section heading
+      // Save section headings
       const sectionResponse = await fetch(`/api/sections/${sectionKey}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content_json: JSON.stringify({ heading }) }),
+        body: JSON.stringify({ content_json: JSON.stringify({ nasiHeading, martoriHeading }) }),
       });
 
       // Save members
@@ -91,8 +94,8 @@ export default function WeddingPartyEditor({ sectionKey }: { sectionKey: string 
     }
   };
 
-  const addMember = () => {
-    setMembers([...members, { name: '', role: '', photo_url: '', description: '' }]);
+  const addMember = (category: 'nasi' | 'martori') => {
+    setMembers([...members, { name: '', role: '', category, photo_url: '', description: '' }]);
   };
 
   const removeMember = async (index: number) => {
@@ -172,122 +175,251 @@ export default function WeddingPartyEditor({ sectionKey }: { sectionKey: string 
       </div>
 
       <div className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Titlu Secțiune</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Label htmlFor="heading">Titlu</Label>
-            <Input
-              id="heading"
-              value={heading}
-              onChange={(e) => setHeading(e.target.value)}
-              placeholder="Nașii și Martorii Noștri"
-              className="mt-2"
-            />
-          </CardContent>
-        </Card>
-
+        {/* Nași Section */}
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Membri</CardTitle>
-              <Button onClick={addMember} size="sm">
+              <div>
+                <CardTitle>Nașii Noștri</CardTitle>
+                <p className="text-sm text-gray-500 mt-1">Titlu și membri pentru secțiunea Nași</p>
+              </div>
+              <Button onClick={() => addMember('nasi')} size="sm">
                 <FaPlus className="mr-2" />
-                Adaugă Membru
+                Adaugă Naș
               </Button>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {members.map((member, index) => (
-              <Card key={index} className="border-2">
-                <CardContent className="pt-6 space-y-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <span className="text-sm font-semibold text-gray-500">Membru #{index + 1}</span>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => removeMember(index)}
-                    >
-                      <FaTrash />
-                    </Button>
-                  </div>
+            <div>
+              <Label htmlFor="nasiHeading">Titlu Secțiune Nași</Label>
+              <Input
+                id="nasiHeading"
+                value={nasiHeading}
+                onChange={(e) => setNasiHeading(e.target.value)}
+                placeholder="Nașii Noștri"
+                className="mt-2"
+              />
+            </div>
 
-                  <div>
-                    <Label>Fotografie</Label>
-                    <div className="mt-2 space-y-3">
-                      {member.photo_url && (
-                        <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden">
-                          <Image
-                            src={member.photo_url}
-                            alt={member.name}
-                            fill
-                            className="object-cover"
+            <div className="space-y-4 mt-6">
+              {members.filter(m => m.category === 'nasi').length === 0 ? (
+                <div className="text-center py-8 text-gray-500 border-2 border-dashed rounded-lg">
+                  <p className="mb-2">Nu există nași adăugați</p>
+                  <p className="text-sm">Apasă "Adaugă Naș" pentru a începe</p>
+                </div>
+              ) : (
+                members.filter(m => m.category === 'nasi').map((member) => {
+                  const memberIndex = members.indexOf(member);
+                  return (
+                    <Card key={memberIndex} className="border-2">
+                      <CardContent className="pt-6 space-y-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <span className="text-sm font-semibold text-gray-500">Naș #{members.filter(m => m.category === 'nasi').indexOf(member) + 1}</span>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => removeMember(memberIndex)}
+                          >
+                            <FaTrash />
+                          </Button>
+                        </div>
+
+                        <div>
+                          <Label>Fotografie</Label>
+                          <div className="mt-2 space-y-3">
+                            {member.photo_url && (
+                              <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden">
+                                <Image
+                                  src={member.photo_url}
+                                  alt={member.name}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            )}
+                            <div className="flex gap-2">
+                              <Input
+                                value={member.photo_url}
+                                onChange={(e) => updateMember(memberIndex, 'photo_url', e.target.value)}
+                                placeholder="/images/nas.jpg"
+                              />
+                              <Button
+                                variant="outline"
+                                onClick={() => document.getElementById(`member-photo-${memberIndex}`)?.click()}
+                                disabled={uploading[memberIndex]}
+                              >
+                                <FaUpload className="mr-2" />
+                                {uploading[memberIndex] ? 'Se încarcă...' : 'Încarcă'}
+                              </Button>
+                              <input
+                                id={`member-photo-${memberIndex}`}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => handleFileUpload(e, memberIndex)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-3">
+                          <div>
+                            <Label>Nume</Label>
+                            <Input
+                              value={member.name}
+                              onChange={(e) => updateMember(memberIndex, 'name', e.target.value)}
+                              placeholder="Ion Popescu"
+                            />
+                          </div>
+                          <div>
+                            <Label>Rol</Label>
+                            <Input
+                              value={member.role}
+                              onChange={(e) => updateMember(memberIndex, 'role', e.target.value)}
+                              placeholder="Naș"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label>Descriere (opțional)</Label>
+                          <Textarea
+                            value={member.description}
+                            onChange={(e) => updateMember(memberIndex, 'description', e.target.value)}
+                            placeholder="Un prieten drag..."
+                            rows={2}
                           />
                         </div>
-                      )}
-                      <div className="flex gap-2">
-                        <Input
-                          value={member.photo_url}
-                          onChange={(e) => updateMember(index, 'photo_url', e.target.value)}
-                          placeholder="/images/member.jpg"
-                        />
-                        <Button
-                          variant="outline"
-                          onClick={() => document.getElementById(`member-photo-${index}`)?.click()}
-                          disabled={uploading[index]}
-                        >
-                          <FaUpload className="mr-2" />
-                          {uploading[index] ? 'Se încarcă...' : 'Încarcă'}
-                        </Button>
-                        <input
-                          id={`member-photo-${index}`}
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => handleFileUpload(e, index)}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
-                  <div className="grid md:grid-cols-2 gap-3">
-                    <div>
-                      <Label>Nume</Label>
-                      <Input
-                        value={member.name}
-                        onChange={(e) => updateMember(index, 'name', e.target.value)}
-                        placeholder="Ion Popescu"
-                      />
-                    </div>
-                    <div>
-                      <Label>Rol</Label>
-                      <Input
-                        value={member.role}
-                        onChange={(e) => updateMember(index, 'role', e.target.value)}
-                        placeholder="Naș / Martor"
-                      />
-                    </div>
-                  </div>
+        {/* Martori Section */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Martorii Noștri</CardTitle>
+                <p className="text-sm text-gray-500 mt-1">Titlu și membri pentru secțiunea Martori</p>
+              </div>
+              <Button onClick={() => addMember('martori')} size="sm">
+                <FaPlus className="mr-2" />
+                Adaugă Martor
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="martoriHeading">Titlu Secțiune Martori</Label>
+              <Input
+                id="martoriHeading"
+                value={martoriHeading}
+                onChange={(e) => setMartoriHeading(e.target.value)}
+                placeholder="Martorii Noștri"
+                className="mt-2"
+              />
+            </div>
 
-                  <div>
-                    <Label>Descriere (opțional)</Label>
-                    <Textarea
-                      value={member.description}
-                      onChange={(e) => updateMember(index, 'description', e.target.value)}
-                      placeholder="Un prieten drag..."
-                      rows={2}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            <div className="space-y-4 mt-6">
+              {members.filter(m => m.category === 'martori').length === 0 ? (
+                <div className="text-center py-8 text-gray-500 border-2 border-dashed rounded-lg">
+                  <p className="mb-2">Nu există martori adăugați</p>
+                  <p className="text-sm">Apasă "Adaugă Martor" pentru a începe</p>
+                </div>
+              ) : (
+                members.filter(m => m.category === 'martori').map((member) => {
+                  const memberIndex = members.indexOf(member);
+                  return (
+                    <Card key={memberIndex} className="border-2">
+                      <CardContent className="pt-6 space-y-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <span className="text-sm font-semibold text-gray-500">Martor #{members.filter(m => m.category === 'martori').indexOf(member) + 1}</span>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => removeMember(memberIndex)}
+                          >
+                            <FaTrash />
+                          </Button>
+                        </div>
 
-            {members.length === 0 && (
-              <p className="text-center text-gray-500 py-8">
-                Nu există membri. Click pe "Adaugă Membru" pentru a începe.
-              </p>
-            )}
+                        <div>
+                          <Label>Fotografie</Label>
+                          <div className="mt-2 space-y-3">
+                            {member.photo_url && (
+                              <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden">
+                                <Image
+                                  src={member.photo_url}
+                                  alt={member.name}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            )}
+                            <div className="flex gap-2">
+                              <Input
+                                value={member.photo_url}
+                                onChange={(e) => updateMember(memberIndex, 'photo_url', e.target.value)}
+                                placeholder="/images/martor.jpg"
+                              />
+                              <Button
+                                variant="outline"
+                                onClick={() => document.getElementById(`member-photo-${memberIndex}`)?.click()}
+                                disabled={uploading[memberIndex]}
+                              >
+                                <FaUpload className="mr-2" />
+                                {uploading[memberIndex] ? 'Se încarcă...' : 'Încarcă'}
+                              </Button>
+                              <input
+                                id={`member-photo-${memberIndex}`}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => handleFileUpload(e, memberIndex)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-3">
+                          <div>
+                            <Label>Nume</Label>
+                            <Input
+                              value={member.name}
+                              onChange={(e) => updateMember(memberIndex, 'name', e.target.value)}
+                              placeholder="Maria Ionescu"
+                            />
+                          </div>
+                          <div>
+                            <Label>Rol</Label>
+                            <Input
+                              value={member.role}
+                              onChange={(e) => updateMember(memberIndex, 'role', e.target.value)}
+                              placeholder="Martor"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label>Descriere (opțional)</Label>
+                          <Textarea
+                            value={member.description}
+                            onChange={(e) => updateMember(memberIndex, 'description', e.target.value)}
+                            placeholder="O prietenă apropiată..."
+                            rows={2}
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>

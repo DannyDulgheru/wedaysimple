@@ -76,6 +76,7 @@ export function initializeDatabase(db: Database.Database) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       role TEXT NOT NULL,
+      category TEXT NOT NULL,
       photo_url TEXT,
       description TEXT,
       social_link TEXT,
@@ -239,7 +240,8 @@ function seedInitialData(db: Database.Database) {
         order: 7,
         visible: 1,
         content: JSON.stringify({
-          heading: 'Nașii și Martorii Noștri'
+          nasiHeading: 'Nașii Noștri',
+          martoriHeading: 'Martorii Noștri'
         })
       },
       {
