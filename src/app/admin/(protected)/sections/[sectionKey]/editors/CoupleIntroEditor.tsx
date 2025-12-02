@@ -106,19 +106,27 @@ export default function CoupleIntroEditor({ sectionKey }: { sectionKey: string }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <Button variant="ghost" onClick={() => router.back()} className="mb-2">
-            <FaArrowLeft className="mr-2" />
-            Înapoi
-          </Button>
-          <h1 className="text-4xl font-bold">Editare Prezentare Miri</h1>
-          <p className="text-gray-600">Fotografii și biografii pentru mire și mireasă</p>
-        </div>
-        <Button onClick={handleSave} disabled={saving}>
-          <FaSave className="mr-2" />
-          {saving ? 'Se salvează...' : 'Salvează'}
+      <div className="mb-6">
+        <Button variant="ghost" onClick={() => router.back()} className="mb-4">
+          <FaArrowLeft className="mr-2" />
+          Înapoi
         </Button>
+        
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Editare Prezentare Miri</h1>
+            <p className="text-gray-600">Fotografii și biografii pentru mire și mireasă</p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => router.back()}>
+              Anulează
+            </Button>
+            <Button onClick={handleSave} disabled={saving} className="bg-primary">
+              <FaSave className="mr-2" />
+              {saving ? 'Se salvează...' : 'Salvează'}
+            </Button>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-6">
