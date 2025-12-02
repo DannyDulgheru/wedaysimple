@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { FaSave, FaPalette, FaFont, FaImage, FaUndo } from 'react-icons/fa';
+import { GOOGLE_FONTS, getGoogleFontsUrl } from '@/lib/fonts';
 
 export default function DesignPage() {
   const [settings, setSettings] = useState<any[]>([]);
@@ -16,6 +18,7 @@ export default function DesignPage() {
 
   useEffect(() => {
     fetchSettings();
+    loadGoogleFonts();
   }, []);
 
   useEffect(() => {
@@ -28,6 +31,20 @@ export default function DesignPage() {
       }
     });
   }, [settings]);
+
+  const loadGoogleFonts = () => {
+    const fontSettings = settings.filter(s => s.setting_category === 'typography');
+    const fonts = fontSettings.map(s => s.setting_value);
+    const fontsUrl = getGoogleFontsUrl(fonts);
+    
+    // Check if link already exists
+    if (!document.querySelector(`link[href*="fonts.googleapis.com"]`)) {
+      const link = document.createElement('link');
+      link.href = fontsUrl;
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }
+  };
 
   const fetchSettings = async () => {
     try {
@@ -256,13 +273,36 @@ export default function DesignPage() {
                       )}
                     </Label>
                     <div className="flex gap-2">
-                      <Input
-                        id={setting.setting_key}
-                        type="text"
+                      <Select
                         value={setting.setting_value}
-                        onChange={(e) => handleValueChange(setting.setting_key, e.target.value)}
-                        className="flex-grow"
-                      />
+                        onValueChange={(value) => handleValueChange(setting.setting_key, value)}
+                      >
+                        <SelectTrigger className="flex-grow">
+                          <SelectValue placeholder="Alege font" />
+                        </SelectTrigger>
+                        <SelectContent className="max-h-[300px]">
+                          <div className="px-2 py-1 text-xs font-semibold text-gray-500">Populare</div>
+                          {GOOGLE_FONTS.filter(f => f.popular).map((font) => (
+                            <SelectItem 
+                              key={font.name} 
+                              value={font.name}
+                              style={{ fontFamily: font.name }}
+                            >
+                              {font.name} <span className="text-xs text-gray-500">({font.category})</span>
+                            </SelectItem>
+                          ))}
+                          <div className="px-2 py-1 text-xs font-semibold text-gray-500 mt-2">Toate fonturile</div>
+                          {GOOGLE_FONTS.filter(f => !f.popular).map((font) => (
+                            <SelectItem 
+                              key={font.name} 
+                              value={font.name}
+                              style={{ fontFamily: font.name }}
+                            >
+                              {font.name} <span className="text-xs text-gray-500">({font.category})</span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <Button
                         size="sm"
                         onClick={() => updateSetting(setting.setting_key, setting.setting_value)}
