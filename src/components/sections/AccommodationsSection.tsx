@@ -9,7 +9,7 @@ interface AccommodationsProps {
     hotels: Array<{
       name: string;
       distance: string;
-      link: string;
+      website: string;
       priceRange: string;
     }>;
   };
@@ -47,7 +47,7 @@ export function AccommodationsSection({ content }: AccommodationsProps) {
               <p className="text-gray-600 mb-2">{hotel.distance}</p>
               <p className="text-secondary font-semibold mb-4">{hotel.priceRange}</p>
               <a
-                href={hotel.link}
+                href={hotel.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors"

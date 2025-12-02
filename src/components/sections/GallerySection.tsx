@@ -11,8 +11,8 @@ interface GalleryProps {
     description: string;
   };
   images: Array<{
-    image_url: string;
-    image_alt?: string;
+    url: string;
+    alt?: string;
     category?: string;
   }>;
 }
@@ -49,8 +49,8 @@ export function GallerySection({ content, images }: GalleryProps) {
               onClick={() => setSelectedImage(index)}
             >
               <Image
-                src={image.image_url}
-                alt={image.image_alt || 'Gallery image'}
+                src={image.url}
+                alt={image.alt || 'Gallery image'}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -82,8 +82,8 @@ export function GallerySection({ content, images }: GalleryProps) {
                 onClick={(e) => e.stopPropagation()}
               >
                 <Image
-                  src={images[selectedImage].image_url}
-                  alt={images[selectedImage].image_alt || 'Gallery image'}
+                  src={images[selectedImage].url}
+                  alt={images[selectedImage].alt || 'Gallery image'}
                   fill
                   className="object-contain"
                 />

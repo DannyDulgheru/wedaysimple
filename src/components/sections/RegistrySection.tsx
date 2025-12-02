@@ -7,7 +7,7 @@ interface RegistryProps {
   content: {
     heading: string;
     message: string;
-    registryLinks: Array<{
+    links: Array<{
       name: string;
       url: string;
     }>;
@@ -41,9 +41,9 @@ export function RegistrySection({ content }: RegistryProps) {
           <FaHeart className="text-5xl text-primary mx-auto mb-6" />
           <p className="text-lg text-gray-700 leading-relaxed mb-8">{content.message}</p>
 
-          {content.registryLinks && content.registryLinks.length > 0 && (
+          {content.links && content.links.length > 0 && (
             <div className="space-y-4">
-              {content.registryLinks.map((link, index) => (
+              {content.links.map((link, index) => (
                 <a
                   key={index}
                   href={link.url}

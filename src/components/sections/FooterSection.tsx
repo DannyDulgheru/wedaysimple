@@ -8,6 +8,8 @@ interface FooterProps {
     thankYouMessage: string;
     hashtag: string;
     contactEmail: string;
+    instagramUrl?: string;
+    facebookUrl?: string;
   };
 }
 
@@ -35,20 +37,28 @@ export function FooterSection({ content }: FooterProps) {
           </div>
 
           <div className="flex justify-center gap-6 mb-8">
-            <a
-              href="#"
-              className="text-3xl hover:text-primary transition-colors"
-              aria-label="Instagram"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href="#"
-              className="text-3xl hover:text-primary transition-colors"
-              aria-label="Facebook"
-            >
-              <FaFacebook />
-            </a>
+            {content.instagramUrl && (
+              <a
+                href={content.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-3xl hover:text-primary transition-colors"
+                aria-label="Instagram"
+              >
+                <FaInstagram />
+              </a>
+            )}
+            {content.facebookUrl && (
+              <a
+                href={content.facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-3xl hover:text-primary transition-colors"
+                aria-label="Facebook"
+              >
+                <FaFacebook />
+              </a>
+            )}
           </div>
 
           <div className="text-sm text-gray-400">
