@@ -16,6 +16,13 @@ interface HeroContent {
   weddingDate: string;
   location: string;
   backgroundImage: string;
+  // Text labels
+  preTitle: string;
+  countdownTitle: string;
+  daysLabel: string;
+  hoursLabel: string;
+  minutesLabel: string;
+  secondsLabel: string;
 }
 
 export default function HeroEditor({ sectionKey }: { sectionKey: string }) {
@@ -26,6 +33,12 @@ export default function HeroEditor({ sectionKey }: { sectionKey: string }) {
     weddingDate: '',
     location: '',
     backgroundImage: '',
+    preTitle: 'Ne căsătorim',
+    countdownTitle: 'Numărătoare inversă',
+    daysLabel: 'Zile',
+    hoursLabel: 'Ore',
+    minutesLabel: 'Minute',
+    secondsLabel: 'Secunde',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -41,7 +54,20 @@ export default function HeroEditor({ sectionKey }: { sectionKey: string }) {
       if (response.ok) {
         const data = await response.json();
         if (data.content_json) {
-          setContent(JSON.parse(data.content_json));
+          const parsed = JSON.parse(data.content_json);
+          setContent({
+            brideName: parsed.brideName || '',
+            groomName: parsed.groomName || '',
+            weddingDate: parsed.weddingDate || '',
+            location: parsed.location || '',
+            backgroundImage: parsed.backgroundImage || '',
+            preTitle: parsed.preTitle || 'Ne căsătorim',
+            countdownTitle: parsed.countdownTitle || 'Numărătoare inversă',
+            daysLabel: parsed.daysLabel || 'Zile',
+            hoursLabel: parsed.hoursLabel || 'Ore',
+            minutesLabel: parsed.minutesLabel || 'Minute',
+            secondsLabel: parsed.secondsLabel || 'Secunde',
+          });
         }
       }
     } catch (error) {
@@ -211,6 +237,76 @@ export default function HeroEditor({ sectionKey }: { sectionKey: string }) {
                   accept="image/*"
                   className="hidden"
                   onChange={handleFileUpload}
+                />
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Texte și Etichete</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="preTitle">Text deasupra numelor</Label>
+              <Input
+                id="preTitle"
+                value={content.preTitle}
+                onChange={(e) => setContent({ ...content, preTitle: e.target.value })}
+                placeholder="Ne căsătorim"
+              />
+            </div>
+            <div>
+              <Label htmlFor="countdownTitle">Titlu Numărătoare Inversă</Label>
+              <Input
+                id="countdownTitle"
+                value={content.countdownTitle}
+                onChange={(e) => setContent({ ...content, countdownTitle: e.target.value })}
+                placeholder="Numărătoare inversă"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label className="mb-3 block">Etichete Numărătoare (Zile, Ore, etc.)</Label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div>
+                <Label htmlFor="daysLabel" className="text-xs text-gray-500">Zile</Label>
+                <Input
+                  id="daysLabel"
+                  value={content.daysLabel}
+                  onChange={(e) => setContent({ ...content, daysLabel: e.target.value })}
+                  placeholder="Zile"
+                />
+              </div>
+              <div>
+                <Label htmlFor="hoursLabel" className="text-xs text-gray-500">Ore</Label>
+                <Input
+                  id="hoursLabel"
+                  value={content.hoursLabel}
+                  onChange={(e) => setContent({ ...content, hoursLabel: e.target.value })}
+                  placeholder="Ore"
+                />
+              </div>
+              <div>
+                <Label htmlFor="minutesLabel" className="text-xs text-gray-500">Minute</Label>
+                <Input
+                  id="minutesLabel"
+                  value={content.minutesLabel}
+                  onChange={(e) => setContent({ ...content, minutesLabel: e.target.value })}
+                  placeholder="Minute"
+                />
+              </div>
+              <div>
+                <Label htmlFor="secondsLabel" className="text-xs text-gray-500">Secunde</Label>
+                <Input
+                  id="secondsLabel"
+                  value={content.secondsLabel}
+                  onChange={(e) => setContent({ ...content, secondsLabel: e.target.value })}
+                  placeholder="Secunde"
                 />
               </div>
             </div>

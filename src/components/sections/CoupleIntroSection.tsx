@@ -9,6 +9,9 @@ interface CoupleIntroProps {
     groomPhoto: string;
     brideBio: string;
     groomBio: string;
+    sectionTitle?: string;
+    brideLabel?: string;
+    groomLabel?: string;
   };
 }
 
@@ -24,7 +27,7 @@ export function CoupleIntroSection({ content }: CoupleIntroProps) {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-            Mirii
+            {content.sectionTitle || 'Mirii'}
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
@@ -46,7 +49,7 @@ export function CoupleIntroSection({ content }: CoupleIntroProps) {
               />
             </div>
             <h3 className="text-3xl mb-3" style={{ fontFamily: 'Great Vibes, cursive' }}>
-              Mireasa
+              {content.brideLabel || 'Mireasa'}
             </h3>
             <p className="text-gray-700 leading-relaxed px-4">{content.brideBio}</p>
           </motion.div>
@@ -67,7 +70,7 @@ export function CoupleIntroSection({ content }: CoupleIntroProps) {
               />
             </div>
             <h3 className="text-3xl mb-3" style={{ fontFamily: 'Great Vibes, cursive' }}>
-              Mirele
+              {content.groomLabel || 'Mirele'}
             </h3>
             <p className="text-gray-700 leading-relaxed px-4">{content.groomBio}</p>
           </motion.div>

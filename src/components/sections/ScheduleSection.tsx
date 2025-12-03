@@ -10,6 +10,7 @@ interface ScheduleProps {
       title: string;
       description: string;
     }>;
+    sectionTitle?: string;
   };
 }
 
@@ -33,7 +34,7 @@ export function ScheduleSection({ content }: ScheduleProps) {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-            Program
+            {content.sectionTitle || 'Program'}
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>

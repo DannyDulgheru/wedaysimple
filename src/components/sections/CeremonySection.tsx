@@ -11,6 +11,12 @@ interface CeremonyProps {
     address: string;
     dressCode: string;
     parking: string;
+    sectionTitle?: string;
+    dateTimeLabel?: string;
+    venueLabel?: string;
+    addressLabel?: string;
+    dressCodeLabel?: string;
+    parkingLabel?: string;
   };
 }
 
@@ -26,7 +32,7 @@ export function CeremonySection({ content }: CeremonyProps) {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-            Ceremonia
+            {content.sectionTitle || 'Ceremonia'}
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
@@ -47,7 +53,7 @@ export function CeremonySection({ content }: CeremonyProps) {
               <div className="flex items-start gap-4">
                 <FaClock className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-gray-900">Data și Ora</p>
+                  <p className="font-semibold text-gray-900">{content.dateTimeLabel || 'Data și Ora'}</p>
                   <p className="text-gray-700">
                     {new Date(content.date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })} la {content.time}
                   </p>
@@ -57,7 +63,7 @@ export function CeremonySection({ content }: CeremonyProps) {
               <div className="flex items-start gap-4">
                 <FaMapMarkerAlt className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-gray-900">Adresă</p>
+                  <p className="font-semibold text-gray-900">{content.addressLabel || 'Adresă'}</p>
                   <p className="text-gray-700">{content.address}</p>
                 </div>
               </div>
@@ -65,13 +71,13 @@ export function CeremonySection({ content }: CeremonyProps) {
               <div className="flex items-start gap-4">
                 <FaParking className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-gray-900">Parcare</p>
+                  <p className="font-semibold text-gray-900">{content.parkingLabel || 'Parcare'}</p>
                   <p className="text-gray-700">{content.parking}</p>
                 </div>
               </div>
 
               <div className="bg-accent p-4 rounded-lg mt-6">
-                <p className="font-semibold text-gray-900 mb-2">Cod Vestimentar</p>
+                <p className="font-semibold text-gray-900 mb-2">{content.dressCodeLabel || 'Cod Vestimentar'}</p>
                 <p className="text-gray-700">{content.dressCode}</p>
               </div>
             </div>

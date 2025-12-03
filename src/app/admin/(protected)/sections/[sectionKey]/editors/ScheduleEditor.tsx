@@ -18,11 +18,15 @@ interface ScheduleEvent {
 
 interface ScheduleContent {
   events: ScheduleEvent[];
+  sectionTitle: string;
 }
 
 export default function ScheduleEditor({ sectionKey }: { sectionKey: string }) {
   const router = useRouter();
-  const [content, setContent] = useState<ScheduleContent>({ events: [] });
+  const [content, setContent] = useState<ScheduleContent>({ 
+    events: [],
+    sectionTitle: 'Programul Zilei' 
+  });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -36,7 +40,11 @@ export default function ScheduleEditor({ sectionKey }: { sectionKey: string }) {
       if (response.ok) {
         const data = await response.json();
         if (data.content_json) {
-          setContent(JSON.parse(data.content_json));
+          const parsed = JSON.parse(data.content_json);
+          setContent({
+            events: parsed.events || [],
+            sectionTitle: parsed.sectionTitle || 'Programul Zilei'
+          });
         }
       }
     } catch (error) {
@@ -117,6 +125,23 @@ export default function ScheduleEditor({ sectionKey }: { sectionKey: string }) {
       </div>
 
       <Card>
+        <CardHeader>
+          <CardTitle>Titlu Secțiune</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div>
+            <Label htmlFor="sectionTitle">Titlu</Label>
+            <Input
+              id="sectionTitle"
+              value={content.sectionTitle}
+              onChange={(e) => setContent({ ...content, sectionTitle: e.target.value })}
+              placeholder="Programul Zilei"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Evenimente Program</CardTitle>

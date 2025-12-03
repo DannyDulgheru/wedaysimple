@@ -16,6 +16,10 @@ interface CoupleIntroContent {
   groomPhoto: string;
   brideBio: string;
   groomBio: string;
+  // Titles and labels
+  sectionTitle: string;
+  brideLabel: string;
+  groomLabel: string;
 }
 
 export default function CoupleIntroEditor({ sectionKey }: { sectionKey: string }) {
@@ -25,6 +29,9 @@ export default function CoupleIntroEditor({ sectionKey }: { sectionKey: string }
     groomPhoto: '',
     brideBio: '',
     groomBio: '',
+    sectionTitle: 'Despre Noi',
+    brideLabel: 'Mireasa',
+    groomLabel: 'Mirele',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -40,7 +47,16 @@ export default function CoupleIntroEditor({ sectionKey }: { sectionKey: string }
       if (response.ok) {
         const data = await response.json();
         if (data.content_json) {
-          setContent(JSON.parse(data.content_json));
+          const parsed = JSON.parse(data.content_json);
+          setContent({
+            bridePhoto: parsed.bridePhoto || '',
+            groomPhoto: parsed.groomPhoto || '',
+            brideBio: parsed.brideBio || '',
+            groomBio: parsed.groomBio || '',
+            sectionTitle: parsed.sectionTitle || 'Despre Noi',
+            brideLabel: parsed.brideLabel || 'Mireasa',
+            groomLabel: parsed.groomLabel || 'Mirele',
+          });
         }
       }
     } catch (error) {
@@ -130,6 +146,43 @@ export default function CoupleIntroEditor({ sectionKey }: { sectionKey: string }
       </div>
 
       <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Titluri și Etichete</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="sectionTitle">Titlu Secțiune</Label>
+                <Input
+                  id="sectionTitle"
+                  value={content.sectionTitle}
+                  onChange={(e) => setContent({ ...content, sectionTitle: e.target.value })}
+                  placeholder="Despre Noi"
+                />
+              </div>
+              <div>
+                <Label htmlFor="brideLabel">Etichetă Mireasă</Label>
+                <Input
+                  id="brideLabel"
+                  value={content.brideLabel}
+                  onChange={(e) => setContent({ ...content, brideLabel: e.target.value })}
+                  placeholder="Mireasa"
+                />
+              </div>
+              <div>
+                <Label htmlFor="groomLabel">Etichetă Mire</Label>
+                <Input
+                  id="groomLabel"
+                  value={content.groomLabel}
+                  onChange={(e) => setContent({ ...content, groomLabel: e.target.value })}
+                  placeholder="Mirele"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle>Mireasa</CardTitle>

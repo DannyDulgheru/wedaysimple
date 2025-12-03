@@ -10,6 +10,13 @@ interface HeroSectionProps {
     weddingDate: string;
     location: string;
     backgroundImage?: string;
+    // Dynamic labels
+    preTitle?: string;
+    countdownTitle?: string;
+    daysLabel?: string;
+    hoursLabel?: string;
+    minutesLabel?: string;
+    secondsLabel?: string;
   };
 }
 
@@ -63,7 +70,7 @@ export function HeroSection({ content }: HeroSectionProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <p className="text-xl md:text-2xl mb-4 font-light tracking-wide">Ne căsătorim</p>
+          <p className="text-xl md:text-2xl mb-4 font-light tracking-wide">{content.preTitle || 'Ne căsătorim'}</p>
           <h1 className="font-script text-6xl md:text-8xl lg:text-9xl mb-6" style={{ fontFamily: 'Great Vibes, cursive' }}>
             {content.brideName} & {content.groomName}
           </h1>
@@ -77,13 +84,13 @@ export function HeroSection({ content }: HeroSectionProps) {
           transition={{ duration: 1, delay: 0.3 }}
           className="mt-12"
         >
-          <p className="text-lg mb-6 uppercase tracking-widest">Numărătoare inversă</p>
+          <p className="text-lg mb-6 uppercase tracking-widest">{content.countdownTitle || 'Numărătoare inversă'}</p>
           <div className="flex justify-center gap-4 md:gap-8">
             {[
-              { value: timeLeft.days, label: 'Zile' },
-              { value: timeLeft.hours, label: 'Ore' },
-              { value: timeLeft.minutes, label: 'Minute' },
-              { value: timeLeft.seconds, label: 'Secunde' }
+              { value: timeLeft.days, label: content.daysLabel || 'Zile' },
+              { value: timeLeft.hours, label: content.hoursLabel || 'Ore' },
+              { value: timeLeft.minutes, label: content.minutesLabel || 'Minute' },
+              { value: timeLeft.seconds, label: content.secondsLabel || 'Secunde' }
             ].map((item, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm px-4 py-6 rounded-lg min-w-[80px] md:min-w-[100px]">
                 <div className="text-4xl md:text-5xl font-bold mb-2">{item.value}</div>

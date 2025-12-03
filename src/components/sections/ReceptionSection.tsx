@@ -5,10 +5,19 @@ import { FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 
 interface ReceptionProps {
   content: {
+    date: string;
     time: string;
     venue: string;
     address: string;
-    specialInstructions: string;
+    parking: string;
+    menu: string;
+    // Labels
+    sectionTitle?: string;
+    dateTimeLabel?: string;
+    venueLabel?: string;
+    addressLabel?: string;
+    parkingLabel?: string;
+    menuLabel?: string;
   };
 }
 
@@ -24,7 +33,7 @@ export function ReceptionSection({ content }: ReceptionProps) {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-            Recepția
+            {content.sectionTitle || 'Recepția'}
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto"></div>
         </motion.div>
@@ -45,22 +54,34 @@ export function ReceptionSection({ content }: ReceptionProps) {
               <div className="flex items-start gap-4">
                 <FaClock className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-gray-900">Ora</p>
-                  <p className="text-gray-700">{content.time}</p>
+                  <p className="font-semibold text-gray-900">{content.dateTimeLabel || 'Data și Ora'}</p>
+                  <p className="text-gray-700">
+                    {content.date && new Date(content.date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })} la {content.time}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
                 <FaMapMarkerAlt className="text-primary text-2xl mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-gray-900">Adresă</p>
+                  <p className="font-semibold text-gray-900">{content.addressLabel || 'Adresă'}</p>
                   <p className="text-gray-700">{content.address}</p>
                 </div>
               </div>
 
-              <div className="bg-white p-4 rounded-lg mt-6">
-                <p className="text-gray-700">{content.specialInstructions}</p>
-              </div>
+              {content.parking && (
+                <div className="bg-white p-4 rounded-lg mt-6">
+                  <p className="font-semibold text-gray-900 mb-2">{content.parkingLabel || 'Parcare'}</p>
+                  <p className="text-gray-700">{content.parking}</p>
+                </div>
+              )}
+
+              {content.menu && (
+                <div className="bg-white p-4 rounded-lg mt-6">
+                  <p className="font-semibold text-gray-900 mb-2">{content.menuLabel || 'Meniu'}</p>
+                  <p className="text-gray-700 whitespace-pre-line">{content.menu}</p>
+                </div>
+              )}
             </div>
 
             <div className="mt-8">

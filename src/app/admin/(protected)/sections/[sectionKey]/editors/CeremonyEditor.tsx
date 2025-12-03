@@ -17,6 +17,13 @@ interface CeremonyContent {
   address: string;
   dressCode: string;
   parking: string;
+  // Labels
+  sectionTitle: string;
+  dateTimeLabel: string;
+  venueLabel: string;
+  addressLabel: string;
+  dressCodeLabel: string;
+  parkingLabel: string;
 }
 
 export default function CeremonyEditor({ sectionKey }: { sectionKey: string }) {
@@ -28,6 +35,12 @@ export default function CeremonyEditor({ sectionKey }: { sectionKey: string }) {
     address: '',
     dressCode: '',
     parking: '',
+    sectionTitle: 'Ceremonia',
+    dateTimeLabel: 'Data și Ora',
+    venueLabel: 'Locația',
+    addressLabel: 'Adresa',
+    dressCodeLabel: 'Cod Vestimentar',
+    parkingLabel: 'Parcare',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -42,7 +55,21 @@ export default function CeremonyEditor({ sectionKey }: { sectionKey: string }) {
       if (response.ok) {
         const data = await response.json();
         if (data.content_json) {
-          setContent(JSON.parse(data.content_json));
+          const parsed = JSON.parse(data.content_json);
+          setContent({
+            date: parsed.date || '',
+            time: parsed.time || '',
+            venue: parsed.venue || '',
+            address: parsed.address || '',
+            dressCode: parsed.dressCode || '',
+            parking: parsed.parking || '',
+            sectionTitle: parsed.sectionTitle || 'Ceremonia',
+            dateTimeLabel: parsed.dateTimeLabel || 'Data și Ora',
+            venueLabel: parsed.venueLabel || 'Locația',
+            addressLabel: parsed.addressLabel || 'Adresa',
+            dressCodeLabel: parsed.dressCodeLabel || 'Cod Vestimentar',
+            parkingLabel: parsed.parkingLabel || 'Parcare',
+          });
         }
       }
     } catch (error) {
@@ -103,6 +130,74 @@ export default function CeremonyEditor({ sectionKey }: { sectionKey: string }) {
       </div>
 
       <Card>
+        <CardHeader>
+          <CardTitle>Titluri și Etichete</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="sectionTitle">Titlu Secțiune</Label>
+            <Input
+              id="sectionTitle"
+              value={content.sectionTitle}
+              onChange={(e) => setContent({ ...content, sectionTitle: e.target.value })}
+              placeholder="Ceremonia"
+            />
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="dateTimeLabel">Etichetă Data/Ora</Label>
+              <Input
+                id="dateTimeLabel"
+                value={content.dateTimeLabel}
+                onChange={(e) => setContent({ ...content, dateTimeLabel: e.target.value })}
+                placeholder="Data și Ora"
+              />
+            </div>
+            <div>
+              <Label htmlFor="venueLabel">Etichetă Locație</Label>
+              <Input
+                id="venueLabel"
+                value={content.venueLabel}
+                onChange={(e) => setContent({ ...content, venueLabel: e.target.value })}
+                placeholder="Locația"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <Label htmlFor="addressLabel">Etichetă Adresă</Label>
+              <Input
+                id="addressLabel"
+                value={content.addressLabel}
+                onChange={(e) => setContent({ ...content, addressLabel: e.target.value })}
+                placeholder="Adresa"
+              />
+            </div>
+            <div>
+              <Label htmlFor="dressCodeLabel">Etichetă Cod Vestimentar</Label>
+              <Input
+                id="dressCodeLabel"
+                value={content.dressCodeLabel}
+                onChange={(e) => setContent({ ...content, dressCodeLabel: e.target.value })}
+                placeholder="Cod Vestimentar"
+              />
+            </div>
+            <div>
+              <Label htmlFor="parkingLabel">Etichetă Parcare</Label>
+              <Input
+                id="parkingLabel"
+                value={content.parkingLabel}
+                onChange={(e) => setContent({ ...content, parkingLabel: e.target.value })}
+                placeholder="Parcare"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
         <CardHeader>
           <CardTitle>Detalii Ceremonie</CardTitle>
         </CardHeader>
